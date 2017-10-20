@@ -21,7 +21,7 @@ public class SellerDetail {
 	@JsonProperty("time_on_lazada")
 	private Map<String, Integer> timeOnLazada;
 	
-	@JsonProperty
+	@JsonProperty("shipped_on_time")
 	private Map<String, Integer> shippedOnTime;
 	
 	public String getName() {
