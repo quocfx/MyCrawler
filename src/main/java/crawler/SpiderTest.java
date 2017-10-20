@@ -14,25 +14,6 @@
 //*******************************************************************
 package crawler;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Map;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
-
-import com.fasterxml.jackson.core.JsonParser.Feature;
-
 import myobject.Seller;
 
 /**
@@ -61,67 +42,16 @@ public class SpiderTest {
 
 	public static void main(String[] args) throws Exception {
 		
-//		String templateURL = "http://seller-transparency-api.lazada.sg/v1/seller/transparency?platform=desktop&lang=en&seller_id=%s"; 
-//
-//		//Fetch the page
-////		final Document doc = Jsoup.connect("https://google.com/search?q=test").userAgent(USER_AGENT).get();
-//		
-//		final Document htmlDocument = Jsoup.connect("http://www.lazada.sg/value-market/").userAgent(USER_AGENT).timeout(5000).get();
-//		
-//		Elements starRating = htmlDocument.getAllElements();
-//		System.out.println("all element size is: " + starRating.size());
-//		int count = 0;
-//		
-//		// get profile id of merchant
-//		String rawData = starRating.get(0).data();		
-//		String template = "sellerId: '";		
-//		int index = rawData.indexOf(template);
-//		if (index > 0) {
-//			rawData = rawData.substring(index + template.length());
-//			index = rawData.indexOf("'");
-//			rawData = rawData.substring(0, index);
-//		}
-//		
-//		System.out.println("Seller id=" + rawData);
-//		
-//		String profileURL = String.format(templateURL, rawData);
-//		System.out.println(profileURL);
+		String merchantUrl = "http://www.lazada.sg/value-market/";
+//		String merchantUrl = "https://www.lazada.sg/verizon-e-store/";
 		
-		String testUrl = "http://seller-transparency-api.lazada.sg/v1/seller/transparency?platform=desktop&lang=en&seller_id=18464";
-		
-		HttpClient client = HttpClientBuilder.create().build();
-		HttpGet request = new HttpGet(testUrl);
-		
-		request.addHeader("User-Agent", USER_AGENT);
-		HttpResponse response = client.execute(request);
-		
-		if (response.getStatusLine().getStatusCode() != 200) {
-		    throw new RuntimeException("Failed : HTTP error code : "
-		             + response.getStatusLine().getStatusCode());
-		}
-		
-		BufferedReader br = new BufferedReader(
-			    new InputStreamReader( 
-			        (response.getEntity().getContent())
-			    )
-			);
-		
-		StringBuilder content = new StringBuilder();
-		String line;
-		while (null != (line = br.readLine())) {
-		    content.append(line);
-		}		
-		
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		mapper.configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);		
-		Seller mySeller =  mapper.readValue(content.toString(), Seller.class);
-		
-		System.out.println("Seller name: " + mySeller.getSellerDetail().getName());
-		System.out.println("Seller location: " + mySeller.getSellerDetail().getLocation());
-		System.out.println("Seller rate: " + mySeller.getSellerDetail().getRate());
-		
+		Spider spider = new Spider();
+//		String profileUrl = spider.generateSellerAPIUrl(merchantUrl);
+		String profileUrl = "http://seller-transparency-api.lazada.sg/v1/seller/transparency?platform=desktop&lang=en&seller_id=18464";
+		Seller currentSeller = spider.getSellerFromProfileUrl(profileUrl);
+		System.out.println("Seller name: " + currentSeller.getSellerDetail().getName());
+		System.out.println("Seller location: " + currentSeller.getSellerDetail().getLocation());
+		System.out.println("Seller rate: " + currentSeller.getSellerDetail().getRate());		
 	}
 
 }
