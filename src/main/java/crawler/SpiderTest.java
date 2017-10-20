@@ -110,54 +110,18 @@ public class SpiderTest {
 		String line;
 		while (null != (line = br.readLine())) {
 		    content.append(line);
-		}
-		
-//		System.out.println(content.toString());
+		}		
 		
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		mapper.configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+		mapper.configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);		
+		Seller mySeller =  mapper.readValue(content.toString(), Seller.class);
 		
-		Map<String,Object> map = mapper.readValue(content.toString(), Map.class);
+		System.out.println("Seller name: " + mySeller.getSellerDetail().getName());
+		System.out.println("Seller location: " + mySeller.getSellerDetail().getLocation());
+		System.out.println("Seller rate: " + mySeller.getSellerDetail().getRate());
 		
-		Map<String,Object> sellerMap = (Map) map.get("seller");
-//		System.out.println(sellerMap.get("name"));
-		
-//		String sellerInfo = map.get("seller").get("name").toString();
-//		System.out.println(sellerInfo);
-//		
-//		String testValue = "{name=ValueMarket, logo_url=}";
-//		
-//		String jsonInString = "{\"name\":\"mkyong\",\"salary\":7500,\"skills\":[\"java\",\"python\"]}";
-//		
-//		Map<String,Object> sellerMap = mapper.readValue(jsonInString, Map.class);
-//		
-////		mapper.readVa
-//		
-		System.out.println("Seller name: " + sellerMap.get("name"));
-		System.out.println("Seller location: " + sellerMap.get("location"));
-		System.out.println("Seller rate: " + sellerMap.get("rate"));
-		
-//		Seller mySeller =  mapper.readValue(sellerInfo, Seller.class);
-		
-		
-//		System.out.println(map);
-		
-//		JsonObject  jsonObject = new JSONObject(content.toString());
-		
-
-		//Traverse the results
-//		for (Element result : starRating){
-//
-////			final String title = result.text();
-////			final String url = result.attr("href");
-//
-//			//Now do something with the results (maybe something more useful than just printing to console)
-//			count++;
-//			System.out.println("------------ Element " + count + "---------------");
-//			System.out.println(result.html());
-//		}
 	}
 
 }

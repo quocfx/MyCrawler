@@ -2,24 +2,19 @@ package myobject;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Seller {
 	
-	private String name;
-	private int rate;
-	private String location;
-	private Map<String, Integer> timeOnLazada;
-	
-	public String getName() {
-		return name;
-	}
-	public int getRate() {
-		return rate;
-	}
-	public String getLocation() {
-		return location;
-	}
-	public Map<String, Integer> getTimeOnLazada() {
-		return timeOnLazada;
-	}
+	@JsonProperty("seller")
+	private SellerDetail sellerDetail;
 
+	/**
+	 * Gets the sellerDetail.
+	 * <p>
+	 * @return Returns the sellerDetail.
+	 */
+	public SellerDetail getSellerDetail() {
+		return sellerDetail;
+	} 
 }

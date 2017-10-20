@@ -1,9 +1,16 @@
 package crawler;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 /**
  * TODO: 
@@ -15,12 +22,42 @@ import java.util.Set;
  */
 public class Spider {
 	
+//	private static final Logger LOG = LoggerFactory.getLogger(CollectionPage.class);
 	// Fields
 	private static final int MAX_PAGES_TO_SEARCH = 10;
 	private Set<String> pagesVisited = new HashSet<String>();
 	private List<String> pagesToVisit = new LinkedList<String>();
+	private final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36";
 	
 	public Spider() {
+	}
+	
+	
+	/**
+	 * Generate Lazada seller API link 
+	 * 
+	 * @param merchantUrl the Url of a merchant
+	 *  e.g. http://www.lazada.sg/value-market/
+	 *  
+	 * @return the Url of the seller API
+	 */
+	public String generateSellerAPIUrl(String merchantUrl) {
+		final String templateURL = "http://seller-transparency-api.lazada.sg/v1/seller/transparency?platform=desktop&lang=en&seller_id=%s";
+		
+		if (merchantUrl == null || StringUtils.isEmpty(merchantUrl)) {
+			return "";
+		}
+		
+		try {
+			final Document htmlDocument = Jsoup.connect(merchantUrl).userAgent(USER_AGENT).timeout(5000).get();
+		} catch (IOException e) {
+//			System.out.println();
+//			LOG.error("IOException: "+ e, e);
+		}
+		String result = "";
+		
+		return result;
+		
 	}
 
 	/**
