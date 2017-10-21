@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        				http://www.springframework.org/schema/beans/spring-beans.xsd
+    					http://www.springframework.org/schema/context
+    					http://www.springframework.org/schema/context/spring-context.xsd
+    					http://www.springframework.org/schema/util
+                    	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+    <context:annotation-config />
+    
+    <util:list id="merchantList" value-type="java.lang.String">
+    	<value>http://www.lazada.sg/2015-great-future/</value>
+		<value>http://www.lazada.sg/china-top-one/</value>
+		<value>http://www.lazada.sg/freekingdon/</value>
+		<value>http://www.lazada.sg/hangqiao/</value>
+		<value>http://www.lazada.sg/hw-top-asia/</value>
+		<value>http://www.lazada.sg/puregold-sg</value>
+		<value>http://www.lazada.sg/ryan-rayla/</value>
+		<value>http://www.lazada.sg/shop-4-fun/</value>
+		<value>http://www.lazada.sg/sportschannel/</value>
+		<value>http://www.lazada.sg/starblink/</value>
+		<value>http://www.lazada.sg/teamtop/</value>
+		<value>http://www.lazada.sg/value-market/</value>
+		<value>http://www.lazada.sg/verizon-e-store/</value>
+		<value>http://www.lazada.sg/watcheszon/</value>
+		<value>http://www.lazada.sg/welcomehome/</value>
+	</util:list>
+	
+	<bean id="sellerDao" class="dao.SellerDao">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://localhost:5432/lazada_crawl" />
+		<property name="username" value="postgres" />
+		<property name="password" value="root" />
+		
+		<property name="connectionProperties">
+            <props>
+                <prop key="socketTimeout">10</prop>
+            </props>
+        </property>
+	</bean>
+</beans>
